@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+               PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.campaignPolicy"
+               RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides"
+               Version="1.0">
+    <Description/>
+    <PolicyDefaults>
+        <XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</XPathVersion>
+    </PolicyDefaults>
+    <Target>
+        <AnyOf>
+            <AllOf>
+                <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#string">campaign
+                    </AttributeValue>
+                    <AttributeDesignator
+                            AttributeId="resource:type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                            MustBePresent="false"
+                    />
+                </Match>
+                <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#string">run
+                    </AttributeValue>
+                    <AttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                            MustBePresent="false"
+                    />
+                </Match>
+            </AllOf>
+        </AnyOf>
+    </Target>
+    <Rule
+            Effect="Deny"
+            RuleId="http://axiomatics.com/alfa/identifier/com.glispa.campaignPolicy.denyIfCampaignIsInactive">
+        <Description>Inactive campaigns can not be run by any publisher</Description>
+        <Target/>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                <AttributeValue
+                        DataType="http://www.w3.org/2001/XMLSchema#boolean">false
+                </AttributeValue>
+                <AttributeDesignator
+                        AttributeId="category:active"
+                        DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                        MustBePresent="false"
+                />
+            </Apply>
+        </Condition>
+    </Rule>
+</Policy>
