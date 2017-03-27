@@ -1,221 +1,590 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicySetId="publisherCanRunCampaign"
-           PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable" Version="1.0">
-    <Description/>
-
+<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+    PolicySetId="publisherCanRunCampaign"
+    PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable"
+    Version="1.0">
+    <Description />
+    
+        
+    
     <Target>
         <AnyOf>
             <AllOf>
                 <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">publisher-can-run-campaign</AttributeValue>
-                    <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
-                                         DataType="http://www.w3.org/2001/XMLSchema#string"
-                                         Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" MustBePresent="false"/>
+                    <AttributeValue
+                        DataType="http://www.w3.org/2001/XMLSchema#string">publisher-can-run-campaign</AttributeValue>
+                    <AttributeDesignator 
+                        AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"
+                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                        MustBePresent="false"
+                    />
                 </Match>
             </AllOf>
         </AnyOf>
     </Target>
-    <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.categoryIsInactive"
-            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
+    <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="publisherCanRunCampaign.categoryIsInactive"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
         <Description>Deny if campaign is inactive</Description>
-
-        <Target/>
-        <Rule Effect="Deny" RuleId="publisherCanRunCampaign.categoryIsInactive.isInactive">
-            <Description/>
-            <Target/>
+        
+            
+        
+        <Target />
+        <Rule 
+                Effect="Deny"
+                RuleId="publisherCanRunCampaign.categoryIsInactive.isInactive">
+            <Description />
+            <Target />
             <Condition>
-                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
-                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
-                        <AttributeDesignator AttributeId="resource:campaign:active" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:queue:campaign"
-                                             MustBePresent="false"/>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not" >
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only" >
+                        <AttributeDesignator 
+                            AttributeId="resource:campaign:active"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                            Issuer="com:glispa:queue:campaign"
+                            MustBePresent="false"
+                        />
                     </Apply>
                 </Apply>
             </Condition>
             <ObligationExpressions>
-                <ObligationExpression ObligationId="obligation.displayAttributes" FulfillOn="Deny">
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
                     <AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Campaign is inactive</AttributeValue>
+                        <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#string">Campaign is inactive</AttributeValue>
                     </AttributeAssignmentExpression>
                 </ObligationExpression>
             </ObligationExpressions>
         </Rule>
     </Policy>
-    <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.publisherIsInactive"
-            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
+    <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="publisherCanRunCampaign.publisherIsInactive"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
         <Description>Deny if publisher is inactive</Description>
-
-        <Target/>
-        <Rule Effect="Deny" RuleId="publisherCanRunCampaign.publisherIsInactive.isInactive">
-            <Description/>
-            <Target/>
+        
+            
+        
+        <Target />
+        <Rule 
+                Effect="Deny"
+                RuleId="publisherCanRunCampaign.publisherIsInactive.isInactive">
+            <Description />
+            <Target />
             <Condition>
-                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
-                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
-                        <AttributeDesignator AttributeId="subject:publisher:active" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                             Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not" >
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only" >
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:active"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
                     </Apply>
                 </Apply>
             </Condition>
             <ObligationExpressions>
-                <ObligationExpression ObligationId="obligation.displayAttributes" FulfillOn="Deny">
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
                     <AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Publisher is inactive</AttributeValue>
+                        <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#string">Publisher is inactive</AttributeValue>
                     </AttributeAssignmentExpression>
                 </ObligationExpression>
             </ObligationExpressions>
         </Rule>
     </Policy>
-    <PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicySetId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign"
-               PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable" Version="1.0">
-        <Description/>
-
-        <Target/>
+    <PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicySetId="publisherCanRunCampaign.whitelistedOrBlacklisted"
+        PolicyCombiningAlgId="urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:ordered-deny-overrides"
+        Version="1.0">
+        <Description>Blacklisted attributes have priority (so if any campaign's attribute is blacklisted this will produce a deny). Otherwise, if there is no attribute blacklisted
+        any attributed whitelisted will be applied, producing a permit. In case none of these apply, it should return a NotApplicable</Description>
+        
+            
+        
+        <Target />
         <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-                PolicyId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.allowedByCategory"
-                RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
-            <Description>Permit if the category of the campaign is whitelisted for publisher</Description>
-
-            <Target/>
-            <Rule Effect="Permit" RuleId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.allowedByCategory.isWhitelisted">
-                <Description>Permit if category is in whitelist</Description>
+            PolicyId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides"
+            Version="1.0">
+            <Description />
+            
+                
+            
+            <Target />
+            <Rule 
+                    Effect="Permit"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.canRunAnyCampaign">
+                <Description>Permit if publisher can run any campaign</Description>
+                <Target />
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                        <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                        <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:all-campaigns"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
+                    </Apply>
+                </Condition>
+            </Rule>
+            <Rule 
+                    Effect="Deny"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.isCampaignBlacklisted">
+                <Description>Deny if the campaign is in blacklist</Description>
                 <Target>
                     <AnyOf>
                         <AllOf>
                             <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
-                                <AttributeDesignator AttributeId="subject:publisher:all-categories"
-                                                     DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                <AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                                <AttributeDesignator 
+                                    AttributeId="subject:publisher:all-campaigns"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
                             </Match>
                         </AllOf>
                     </AnyOf>
                 </Target>
                 <Condition>
-                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
-                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                            <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <AttributeDesignator 
+                                AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                MustBePresent="false"
+                            />
                         </Apply>
-                        <AttributeDesignator AttributeId="subject:publisher:whitelisted-categories" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
-                                             MustBePresent="false"/>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:blacklisted-campaigns"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
                     </Apply>
                 </Condition>
-                <ObligationExpressions>
-                    <ObligationExpression ObligationId="obligation.displayAttributes" FulfillOn="Permit">
-                        <AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                            <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Category is whitelisted:</AttributeValue>
-                                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                                    <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                         Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                         Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
-                                </Apply>
-                            </Apply>
-                        </AttributeAssignmentExpression>
-                    </ObligationExpression>
-                </ObligationExpressions>
             </Rule>
-            <Rule Effect="Deny" RuleId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.allowedByCategory.isBlacklisted">
-                <Description>Deny if category is in blacklist</Description>
+            <Rule 
+                    Effect="Permit"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.isCampaignWhitelisted">
+                <Description>Permit if the campaign is in whitelist</Description>
                 <Target>
                     <AnyOf>
                         <AllOf>
                             <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
-                                <AttributeDesignator AttributeId="subject:publisher:all-categories"
-                                                     DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                <AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
+                                <AttributeDesignator 
+                                    AttributeId="subject:publisher:all-campaigns"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
                             </Match>
                         </AllOf>
                     </AnyOf>
                 </Target>
                 <Condition>
-                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
-                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                            <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <AttributeDesignator 
+                                AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                MustBePresent="false"
+                            />
                         </Apply>
-                        <AttributeDesignator AttributeId="subject:publisher:blacklisted-categories" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
-                                             MustBePresent="false"/>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:whitelisted-campaigns"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
                     </Apply>
                 </Condition>
-                <ObligationExpressions>
-                    <ObligationExpression ObligationId="obligation.displayAttributes" FulfillOn="Deny">
-                        <AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                            <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Category is blacklisted:</AttributeValue>
-                                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                                    <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                         Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                         Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
-                                </Apply>
-                            </Apply>
-                        </AttributeAssignmentExpression>
-                    </ObligationExpression>
-                </ObligationExpressions>
             </Rule>
+            <ObligationExpressions>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign is denied: </AttributeValue>
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <AttributeDesignator 
+                                    AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    MustBePresent="false"
+                                />
+                            </Apply>
+                        </Apply>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Permit">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign is allowed: </AttributeValue>
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <AttributeDesignator 
+                                    AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    MustBePresent="false"
+                                />
+                            </Apply>
+                        </Apply>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+            </ObligationExpressions>
         </Policy>
         <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-                PolicyId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.countryIsWhitelisted"
-                RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
-            <Description>Permit if the country of the campaign is whitelisted for publisher</Description>
-
-            <Target/>
-            <Rule Effect="Permit" RuleId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.countryIsWhitelisted.isWhitelisted">
-                <Description/>
-                <Target/>
+            PolicyId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides"
+            Version="1.0">
+            <Description />
+            
+                
+            
+            <Target />
+            <Rule 
+                    Effect="Permit"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.canRunAnyCategory">
+                <Description>Permit if publisher can run any campaign's category</Description>
+                <Target />
                 <Condition>
-                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
-                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                            <AttributeDesignator AttributeId="resource:campaign:country" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
-                        </Apply>
-                        <AttributeDesignator AttributeId="subject:publisher:whitelisted-countries" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
-                                             MustBePresent="false"/>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                        <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                        <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:all-categories"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
                     </Apply>
                 </Condition>
-                <ObligationExpressions>
-                    <ObligationExpression ObligationId="obligation.displayAttributes" FulfillOn="Permit">
-                        <AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                            <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Country is whitelisted:</AttributeValue>
-                                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                                    <AttributeDesignator AttributeId="resource:campaign:country" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                         Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                         Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
-                                </Apply>
+            </Rule>
+            <Rule 
+                    Effect="Deny"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.isCategoryBlacklisted">
+                <Description>Deny if the campaign's category is in blacklist</Description>
+                <Target>
+                    <AnyOf>
+                        <AllOf>
+                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                                <AttributeDesignator 
+                                    AttributeId="subject:publisher:all-categories"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </Match>
+                        </AllOf>
+                    </AnyOf>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <AttributeDesignator 
+                                AttributeId="resource:campaign:category"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"
+                            />
+                        </Apply>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:blacklisted-categories"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </Apply>
+                </Condition>
+            </Rule>
+            <Rule 
+                    Effect="Permit"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.isCategoryWhitelisted">
+                <Description>Permit if the campaign's category is in whitelist</Description>
+                <Target>
+                    <AnyOf>
+                        <AllOf>
+                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
+                                <AttributeDesignator 
+                                    AttributeId="subject:publisher:all-categories"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </Match>
+                        </AllOf>
+                    </AnyOf>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <AttributeDesignator 
+                                AttributeId="resource:campaign:category"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"
+                            />
+                        </Apply>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:whitelisted-categories"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </Apply>
+                </Condition>
+            </Rule>
+            <ObligationExpressions>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's category is denied: </AttributeValue>
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <AttributeDesignator 
+                                    AttributeId="resource:campaign:category"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
                             </Apply>
-                        </AttributeAssignmentExpression>
-                    </ObligationExpression>
-                </ObligationExpressions>
-            </Rule>
+                        </Apply>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Permit">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's category is allowed: </AttributeValue>
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <AttributeDesignator 
+                                    AttributeId="resource:campaign:category"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
+                            </Apply>
+                        </Apply>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+            </ObligationExpressions>
         </Policy>
-        <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.default"
-                RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
-            <Description>If no other</Description>
-
-            <Target/>
-            <Rule Effect="Deny" RuleId="publisherCanRunCampaign.publisherIsAllowedToRunCampaign.default.default">
-                <Description/>
-                <Target/>
+        <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+            PolicyId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides"
+            Version="1.0">
+            <Description />
+            
+                
+            
+            <Target />
+            <Rule 
+                    Effect="Permit"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.canRunAnyCountry">
+                <Description>Permit if publisher can run any campaign's country</Description>
+                <Target />
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                        <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                        <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:all-countries"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
+                    </Apply>
+                </Condition>
             </Rule>
+            <Rule 
+                    Effect="Deny"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.isCountryBlacklisted">
+                <Description>Deny if the campaign's country is in blacklist</Description>
+                <Target>
+                    <AnyOf>
+                        <AllOf>
+                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                                <AttributeDesignator 
+                                    AttributeId="subject:publisher:all-countries"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </Match>
+                        </AllOf>
+                    </AnyOf>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <AttributeDesignator 
+                                AttributeId="resource:campaign:country"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"
+                            />
+                        </Apply>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:blacklisted-countries"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </Apply>
+                </Condition>
+            </Rule>
+            <Rule 
+                    Effect="Permit"
+                    RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.isCountryWhitelisted">
+                <Description>Permit if the campaign's country is in whitelist</Description>
+                <Target>
+                    <AnyOf>
+                        <AllOf>
+                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
+                                <AttributeDesignator 
+                                    AttributeId="subject:publisher:all-countries"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </Match>
+                        </AllOf>
+                    </AnyOf>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <AttributeDesignator 
+                                AttributeId="resource:campaign:country"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"
+                            />
+                        </Apply>
+                        <AttributeDesignator 
+                            AttributeId="subject:publisher:whitelisted-countries"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </Apply>
+                </Condition>
+            </Rule>
+            <ObligationExpressions>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's country is denied: </AttributeValue>
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <AttributeDesignator 
+                                    AttributeId="resource:campaign:country"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
+                            </Apply>
+                        </Apply>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Permit">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's country is allowed: </AttributeValue>
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <AttributeDesignator 
+                                    AttributeId="resource:campaign:country"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
+                            </Apply>
+                        </Apply>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+            </ObligationExpressions>
         </Policy>
-        <ObligationExpressions>
-            <ObligationExpression ObligationId="obligation.displayAttributes" FulfillOn="Deny">
-                <AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Publisher and campaign are active but it has no permission to run this campaign</AttributeValue>
-                </AttributeAssignmentExpression>
-            </ObligationExpression>
-        </ObligationExpressions>
     </PolicySet>
+    <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="publisherCanRunCampaign.default"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+        <Description>If nothing is applicable, deny</Description>
+        
+            
+        
+        <Target />
+        <Rule 
+                Effect="Deny"
+                RuleId="publisherCanRunCampaign.default.default">
+            <Description />
+            <Target />
+            <ObligationExpressions>
+                <ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#string">Publisher has no permission to run this campaign</AttributeValue>
+                    </AttributeAssignmentExpression>
+                </ObligationExpression>
+            </ObligationExpressions>
+        </Rule>
+    </Policy>
 </PolicySet>

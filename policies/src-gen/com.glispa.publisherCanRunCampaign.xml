@@ -53,7 +53,7 @@
                 </xacml3:Apply>
             </xacml3:Condition>
             <xacml3:ObligationExpressions>
-                <xacml3:ObligationExpression ObligationId="obligation.displayAttributes"
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
                 FulfillOn="Deny">
                     <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
                         <xacml3:AttributeValue
@@ -91,7 +91,7 @@
                 </xacml3:Apply>
             </xacml3:Condition>
             <xacml3:ObligationExpressions>
-                <xacml3:ObligationExpression ObligationId="obligation.displayAttributes"
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
                 FulfillOn="Deny">
                     <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
                         <xacml3:AttributeValue
@@ -102,35 +102,56 @@
         </xacml3:Rule>
     </xacml3:Policy>
     <xacml3:PolicySet xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-        PolicySetId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign"
-        PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable"
+        PolicySetId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted"
+        PolicyCombiningAlgId="urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:ordered-deny-overrides"
         Version="1.0">
-        <xacml3:Description />
+        <xacml3:Description>Blacklisted attributes have priority (so if any campaign's attribute is blacklisted this will produce a deny). Otherwise, if there is no attribute blacklisted
+        any attributed whitelisted will be applied, producing a permit. In case none of these apply, it should return a NotApplicable</xacml3:Description>
         <xacml3:PolicySetDefaults>
             <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
         </xacml3:PolicySetDefaults>
         <xacml3:Target />
         <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-            PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.allowedByCategory"
-            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+            PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides"
             Version="1.0">
-            <xacml3:Description>Permit if the category of the campaign is whitelisted for publisher</xacml3:Description>
+            <xacml3:Description />
             <xacml3:PolicyDefaults>
                 <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
             </xacml3:PolicyDefaults>
             <xacml3:Target />
             <xacml3:Rule 
                     Effect="Permit"
-                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.allowedByCategory.isWhitelisted">
-                <xacml3:Description>Permit if category is in whitelist</xacml3:Description>
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.canRunAnyCampaign">
+                <xacml3:Description>Permit if publisher can run any campaign</xacml3:Description>
+                <xacml3:Target />
+                <xacml3:Condition>
+                    <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                        <xacml3:Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                        <xacml3:AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean">true</xacml3:AttributeValue>
+                        <xacml3:AttributeDesignator 
+                            AttributeId="subject:publisher:all-campaigns"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
+                    </xacml3:Apply>
+                </xacml3:Condition>
+            </xacml3:Rule>
+            <xacml3:Rule 
+                    Effect="Deny"
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.isCampaignBlacklisted">
+                <xacml3:Description>Deny if the campaign is in blacklist</xacml3:Description>
                 <xacml3:Target>
                     <xacml3:AnyOf>
                         <xacml3:AllOf>
                             <xacml3:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
                                 <xacml3:AttributeValue
-                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</xacml3:AttributeValue>
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">true</xacml3:AttributeValue>
                                 <xacml3:AttributeDesignator 
-                                    AttributeId="subject:publisher:all-categories"
+                                    AttributeId="subject:publisher:all-campaigns"
                                     DataType="http://www.w3.org/2001/XMLSchema#boolean"
                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
                                     Issuer="com:glispa:queue:publisher"
@@ -144,15 +165,14 @@
                     <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
                         <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
                             <xacml3:AttributeDesignator 
-                                AttributeId="resource:campaign:category"
+                                AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
                                 DataType="http://www.w3.org/2001/XMLSchema#string"
                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                Issuer="com:glispa:queue:campaign"
                                 MustBePresent="false"
                             />
                         </xacml3:Apply>
                         <xacml3:AttributeDesignator 
-                            AttributeId="subject:publisher:whitelisted-categories"
+                            AttributeId="subject:publisher:blacklisted-campaigns"
                             DataType="http://www.w3.org/2001/XMLSchema#string"
                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
                             Issuer="com:glispa:mediation"
@@ -160,31 +180,118 @@
                         />
                     </xacml3:Apply>
                 </xacml3:Condition>
-                <xacml3:ObligationExpressions>
-                    <xacml3:ObligationExpression ObligationId="obligation.displayAttributes"
-                    FulfillOn="Permit">
-                        <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+            </xacml3:Rule>
+            <xacml3:Rule 
+                    Effect="Permit"
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.isCampaignWhitelisted">
+                <xacml3:Description>Permit if the campaign is in whitelist</xacml3:Description>
+                <xacml3:Target>
+                    <xacml3:AnyOf>
+                        <xacml3:AllOf>
+                            <xacml3:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
                                 <xacml3:AttributeValue
-                                    DataType="http://www.w3.org/2001/XMLSchema#string">Category is whitelisted: </xacml3:AttributeValue>
-                                <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
-                                    <xacml3:AttributeDesignator 
-                                        AttributeId="resource:campaign:category"
-                                        DataType="http://www.w3.org/2001/XMLSchema#string"
-                                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                        Issuer="com:glispa:queue:campaign"
-                                        MustBePresent="false"
-                                    />
-                                </xacml3:Apply>
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</xacml3:AttributeValue>
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="subject:publisher:all-campaigns"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Match>
+                        </xacml3:AllOf>
+                    </xacml3:AnyOf>
+                </xacml3:Target>
+                <xacml3:Condition>
+                    <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <xacml3:AttributeDesignator 
+                                AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                MustBePresent="false"
+                            />
+                        </xacml3:Apply>
+                        <xacml3:AttributeDesignator 
+                            AttributeId="subject:publisher:whitelisted-campaigns"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </xacml3:Apply>
+                </xacml3:Condition>
+            </xacml3:Rule>
+            <xacml3:ObligationExpressions>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <xacml3:AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign is denied: </xacml3:AttributeValue>
+                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    MustBePresent="false"
+                                />
                             </xacml3:Apply>
-                        </xacml3:AttributeAssignmentExpression>
-                    </xacml3:ObligationExpression>
-                </xacml3:ObligationExpressions>
+                        </xacml3:Apply>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Permit">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <xacml3:AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign is allowed: </xacml3:AttributeValue>
+                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Apply>
+                        </xacml3:Apply>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+            </xacml3:ObligationExpressions>
+        </xacml3:Policy>
+        <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+            PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides"
+            Version="1.0">
+            <xacml3:Description />
+            <xacml3:PolicyDefaults>
+                <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
+            </xacml3:PolicyDefaults>
+            <xacml3:Target />
+            <xacml3:Rule 
+                    Effect="Permit"
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.canRunAnyCategory">
+                <xacml3:Description>Permit if publisher can run any campaign's category</xacml3:Description>
+                <xacml3:Target />
+                <xacml3:Condition>
+                    <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                        <xacml3:Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                        <xacml3:AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean">true</xacml3:AttributeValue>
+                        <xacml3:AttributeDesignator 
+                            AttributeId="subject:publisher:all-categories"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
+                    </xacml3:Apply>
+                </xacml3:Condition>
             </xacml3:Rule>
             <xacml3:Rule 
                     Effect="Deny"
-                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.allowedByCategory.isBlacklisted">
-                <xacml3:Description>Deny if category is in blacklist</xacml3:Description>
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.isCategoryBlacklisted">
+                <xacml3:Description>Deny if the campaign's category is in blacklist</xacml3:Description>
                 <xacml3:Target>
                     <xacml3:AnyOf>
                         <xacml3:AllOf>
@@ -222,42 +329,180 @@
                         />
                     </xacml3:Apply>
                 </xacml3:Condition>
-                <xacml3:ObligationExpressions>
-                    <xacml3:ObligationExpression ObligationId="obligation.displayAttributes"
-                    FulfillOn="Deny">
-                        <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
-                                <xacml3:AttributeValue
-                                    DataType="http://www.w3.org/2001/XMLSchema#string">Category is blacklisted: </xacml3:AttributeValue>
-                                <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
-                                    <xacml3:AttributeDesignator 
-                                        AttributeId="resource:campaign:category"
-                                        DataType="http://www.w3.org/2001/XMLSchema#string"
-                                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                        Issuer="com:glispa:queue:campaign"
-                                        MustBePresent="false"
-                                    />
-                                </xacml3:Apply>
-                            </xacml3:Apply>
-                        </xacml3:AttributeAssignmentExpression>
-                    </xacml3:ObligationExpression>
-                </xacml3:ObligationExpressions>
             </xacml3:Rule>
+            <xacml3:Rule 
+                    Effect="Permit"
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.isCategoryWhitelisted">
+                <xacml3:Description>Permit if the campaign's category is in whitelist</xacml3:Description>
+                <xacml3:Target>
+                    <xacml3:AnyOf>
+                        <xacml3:AllOf>
+                            <xacml3:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <xacml3:AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</xacml3:AttributeValue>
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="subject:publisher:all-categories"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Match>
+                        </xacml3:AllOf>
+                    </xacml3:AnyOf>
+                </xacml3:Target>
+                <xacml3:Condition>
+                    <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <xacml3:AttributeDesignator 
+                                AttributeId="resource:campaign:category"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"
+                            />
+                        </xacml3:Apply>
+                        <xacml3:AttributeDesignator 
+                            AttributeId="subject:publisher:whitelisted-categories"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </xacml3:Apply>
+                </xacml3:Condition>
+            </xacml3:Rule>
+            <xacml3:ObligationExpressions>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <xacml3:AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's category is denied: </xacml3:AttributeValue>
+                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="resource:campaign:category"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Apply>
+                        </xacml3:Apply>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Permit">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <xacml3:AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's category is allowed: </xacml3:AttributeValue>
+                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="resource:campaign:category"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Apply>
+                        </xacml3:Apply>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+            </xacml3:ObligationExpressions>
         </xacml3:Policy>
         <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-            PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.countryIsWhitelisted"
-            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+            PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides"
             Version="1.0">
-            <xacml3:Description>Permit if the country of the campaign is whitelisted for publisher</xacml3:Description>
+            <xacml3:Description />
             <xacml3:PolicyDefaults>
                 <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
             </xacml3:PolicyDefaults>
             <xacml3:Target />
             <xacml3:Rule 
                     Effect="Permit"
-                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.countryIsWhitelisted.isWhitelisted">
-                <xacml3:Description />
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.canRunAnyCountry">
+                <xacml3:Description>Permit if publisher can run any campaign's country</xacml3:Description>
                 <xacml3:Target />
+                <xacml3:Condition>
+                    <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                        <xacml3:Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
+                        <xacml3:AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean">true</xacml3:AttributeValue>
+                        <xacml3:AttributeDesignator 
+                            AttributeId="subject:publisher:all-countries"
+                            DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:queue:publisher"
+                            MustBePresent="false"
+                        />
+                    </xacml3:Apply>
+                </xacml3:Condition>
+            </xacml3:Rule>
+            <xacml3:Rule 
+                    Effect="Deny"
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.isCountryBlacklisted">
+                <xacml3:Description>Deny if the campaign's country is in blacklist</xacml3:Description>
+                <xacml3:Target>
+                    <xacml3:AnyOf>
+                        <xacml3:AllOf>
+                            <xacml3:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <xacml3:AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">true</xacml3:AttributeValue>
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="subject:publisher:all-countries"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Match>
+                        </xacml3:AllOf>
+                    </xacml3:AnyOf>
+                </xacml3:Target>
+                <xacml3:Condition>
+                    <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                            <xacml3:AttributeDesignator 
+                                AttributeId="resource:campaign:country"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"
+                            />
+                        </xacml3:Apply>
+                        <xacml3:AttributeDesignator 
+                            AttributeId="subject:publisher:blacklisted-countries"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation"
+                            MustBePresent="false"
+                        />
+                    </xacml3:Apply>
+                </xacml3:Condition>
+            </xacml3:Rule>
+            <xacml3:Rule 
+                    Effect="Permit"
+                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.isCountryWhitelisted">
+                <xacml3:Description>Permit if the campaign's country is in whitelist</xacml3:Description>
+                <xacml3:Target>
+                    <xacml3:AnyOf>
+                        <xacml3:AllOf>
+                            <xacml3:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                                <xacml3:AttributeValue
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean">false</xacml3:AttributeValue>
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="subject:publisher:all-countries"
+                                    DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                    Issuer="com:glispa:queue:publisher"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Match>
+                        </xacml3:AllOf>
+                    </xacml3:AnyOf>
+                </xacml3:Target>
                 <xacml3:Condition>
                     <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in" >
                         <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
@@ -278,52 +523,70 @@
                         />
                     </xacml3:Apply>
                 </xacml3:Condition>
-                <xacml3:ObligationExpressions>
-                    <xacml3:ObligationExpression ObligationId="obligation.displayAttributes"
-                    FulfillOn="Permit">
-                        <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
-                                <xacml3:AttributeValue
-                                    DataType="http://www.w3.org/2001/XMLSchema#string">Country is whitelisted: </xacml3:AttributeValue>
-                                <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
-                                    <xacml3:AttributeDesignator 
-                                        AttributeId="resource:campaign:country"
-                                        DataType="http://www.w3.org/2001/XMLSchema#string"
-                                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                        Issuer="com:glispa:queue:campaign"
-                                        MustBePresent="false"
-                                    />
-                                </xacml3:Apply>
+            </xacml3:Rule>
+            <xacml3:ObligationExpressions>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <xacml3:AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's country is denied: </xacml3:AttributeValue>
+                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="resource:campaign:country"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
                             </xacml3:Apply>
-                        </xacml3:AttributeAssignmentExpression>
-                    </xacml3:ObligationExpression>
-                </xacml3:ObligationExpressions>
-            </xacml3:Rule>
+                        </xacml3:Apply>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Permit">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate" >
+                            <xacml3:AttributeValue
+                                DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's country is allowed: </xacml3:AttributeValue>
+                            <xacml3:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only" >
+                                <xacml3:AttributeDesignator 
+                                    AttributeId="resource:campaign:country"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                    Issuer="com:glispa:queue:campaign"
+                                    MustBePresent="false"
+                                />
+                            </xacml3:Apply>
+                        </xacml3:Apply>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+            </xacml3:ObligationExpressions>
         </xacml3:Policy>
-        <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-            PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.default"
-            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
-            Version="1.0">
-            <xacml3:Description>If no other</xacml3:Description>
-            <xacml3:PolicyDefaults>
-                <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
-            </xacml3:PolicyDefaults>
-            <xacml3:Target />
-            <xacml3:Rule 
-                    Effect="Deny"
-                    RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.publisherIsAllowedToRunCampaign.default.default">
-                <xacml3:Description />
-                <xacml3:Target />
-            </xacml3:Rule>
-        </xacml3:Policy>
-        <xacml3:ObligationExpressions>
-            <xacml3:ObligationExpression ObligationId="obligation.displayAttributes"
-            FulfillOn="Deny">
-                <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
-                    <xacml3:AttributeValue
-                        DataType="http://www.w3.org/2001/XMLSchema#string">Publisher and campaign are active but it has no permission to run this campaign</xacml3:AttributeValue>
-                </xacml3:AttributeAssignmentExpression>
-            </xacml3:ObligationExpression>
-        </xacml3:ObligationExpressions>
     </xacml3:PolicySet>
+    <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.default"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+        <xacml3:Description>If nothing is applicable, deny</xacml3:Description>
+        <xacml3:PolicyDefaults>
+            <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
+        </xacml3:PolicyDefaults>
+        <xacml3:Target />
+        <xacml3:Rule 
+                Effect="Deny"
+                RuleId="http://axiomatics.com/alfa/identifier/com.glispa.publisherCanRunCampaign.default.default">
+            <xacml3:Description />
+            <xacml3:Target />
+            <xacml3:ObligationExpressions>
+                <xacml3:ObligationExpression ObligationId="obligation.responseMessage"
+                FulfillOn="Deny">
+                    <xacml3:AttributeAssignmentExpression AttributeId="response:message" Category="response">
+                        <xacml3:AttributeValue
+                            DataType="http://www.w3.org/2001/XMLSchema#string">Publisher has no permission to run this campaign</xacml3:AttributeValue>
+                    </xacml3:AttributeAssignmentExpression>
+                </xacml3:ObligationExpression>
+            </xacml3:ObligationExpressions>
+        </xacml3:Rule>
+    </xacml3:Policy>
 </xacml3:PolicySet>

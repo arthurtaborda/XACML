@@ -9,100 +9,20 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign is allowed: 1",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Category is blacklisted:NEWS_AND_MAGAZINES",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     }, {
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign's country is allowed: US",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     } ],
-    "Decision" : "Deny"
+    "Decision" : "Permit"
   }, {
     "Status" : {
       "StatusCode" : {
@@ -113,34 +33,34 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign is allowed: 2",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Category is blacklisted:PRODUCTIVITY",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     }, {
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign's country is allowed: US",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is denied: BR",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
     } ],
     "Decision" : "Deny"
   }, {
@@ -153,20 +73,100 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Category is blacklisted:RACING",
+        "Value" : "Campaign's country is denied: BR",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign is denied: 5",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign is denied: 6",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is denied: FR",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is denied: FR",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign is allowed: 9",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
     }, {
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign's country is allowed: CH",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     } ],
-    "Decision" : "Deny"
+    "Decision" : "Permit"
   }, {
     "Status" : {
       "StatusCode" : {
@@ -177,11 +177,19 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign is allowed: 10",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
+    }, {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is allowed: CH",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
     } ],
-    "Decision" : "Deny"
+    "Decision" : "Permit"
   } ]
 }

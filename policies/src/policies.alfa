@@ -12,7 +12,7 @@ namespace com.glispa {
 				deny
 				condition not(booleanOneAndOnly(campaign.active[issuer="com:glispa:queue:campaign"]))
 				on deny {
-	                obligation displayAttributes {
+	                obligation responseMessage {
 	                    response.message = "Campaign is inactive"
 	                }
 	            }
@@ -27,86 +27,157 @@ namespace com.glispa {
 				deny
 				condition not(booleanOneAndOnly(publisher.active[issuer="com:glispa:queue:publisher"]))
 				on deny {
-	                obligation displayAttributes {
+	                obligation responseMessage {
 	                    response.message = "Publisher is inactive"
 	                }
 	            }
 			}
 		}
 		
-		policyset publisherIsAllowedToRunCampaign {
-			apply firstApplicable
-			
-			/* Permit if the category of the campaign is whitelisted for publisher */
-			policy allowedByCategory {
-				apply firstApplicable
-							
-				/* Permit if category is in whitelist */
-				rule isWhitelisted {
-					target clause publisher.allCategories[issuer="com:glispa:queue:publisher"]==false
+		/* Blacklisted attributes have priority (so if any campaign's attribute is blacklisted this will produce a deny). Otherwise, if there is no attribute blacklisted 
+		 * any attributed whitelisted will be applied, producing a permit. In case none of these apply, it should return a NotApplicable
+		 */
+		policyset whitelistedOrBlacklisted {
+			apply orderedDenyOverrides
+
+			policy byCampaign {
+				apply orderedDenyOverrides
+				
+				/* Permit if publisher can run any campaign */
+				rule canRunAnyCampaign {
 					permit
-					condition stringIsIn(
-						stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
-						publisher.whitelistedCategories[issuer="com:glispa:mediation"]
-					)
-					on permit {
-		                obligation displayAttributes {
-		                    response.message = stringConcatenate("Category is whitelisted: ", stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]))
-		                }
-		            }
+					condition publisher.allCampaigns[issuer="com:glispa:queue:publisher"]==true
 				}
 							
-				/* Deny if category is in blacklist */
-				rule isBlacklisted {
+				/* Deny if the campaign is in blacklist */
+				rule isCampaignBlacklisted {
+					target clause publisher.allCampaigns[issuer="com:glispa:queue:publisher"]==true
+					deny
+					condition stringIsIn(
+						stringOneAndOnly(Attributes.resourceId), 
+						publisher.blacklistedCampaigns[issuer="com:glispa:mediation"]
+					)					
+				}
+				
+				/* Permit if the campaign is in whitelist */
+				rule isCampaignWhitelisted {
+					target clause publisher.allCampaigns[issuer="com:glispa:queue:publisher"]==false
+					permit
+					condition stringIsIn(
+						stringOneAndOnly(Attributes.resourceId), 
+						publisher.whitelistedCampaigns[issuer="com:glispa:mediation"]
+					)					
+				}
+				on deny {
+	                obligation responseMessage {
+	                    response.message = stringConcatenate("Campaign is denied: ", stringOneAndOnly(Attributes.resourceId))
+	                }
+	            }
+	            on permit {
+	                obligation responseMessage {
+	                    response.message = stringConcatenate("Campaign is allowed: ", stringOneAndOnly(Attributes.resourceId))
+	                }
+	            }
+			}
+			
+			
+			policy byCategory {
+				apply orderedDenyOverrides
+				/* Permit if publisher can run any campaign's category */
+				rule canRunAnyCategory {
+					permit
+					condition publisher.allCategories[issuer="com:glispa:queue:publisher"]==true
+				}
+								
+				/* Deny if the campaign's category is in blacklist */
+				rule isCategoryBlacklisted {
 					target clause publisher.allCategories[issuer="com:glispa:queue:publisher"]==true
 					deny
 					condition stringIsIn(
 						stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
 						publisher.blacklistedCategories[issuer="com:glispa:mediation"]
 					)
-					on deny {
-		                obligation displayAttributes {
-		                    response.message = stringConcatenate("Category is blacklisted: ", stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]))
-		                }
-		            }
-				}
+				}			
+					
+				/* Permit if the campaign's category is in whitelist */
+				rule isCategoryWhitelisted {
+				target clause publisher.allCategories[issuer="com:glispa:queue:publisher"]==false
+					permit
+					condition stringIsIn(
+						stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
+						publisher.whitelistedCategories[issuer="com:glispa:mediation"]
+					)
+				}	
+				
+				on deny {
+	                obligation responseMessage {
+	                    response.message = stringConcatenate("Campaign's category is denied: ", stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]))
+	                }
+	            }
+	            on permit {
+	                obligation responseMessage {
+	                    response.message = stringConcatenate("Campaign's category is allowed: ", stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]))
+	                }
+	            }
 			}
 			
-			/* Permit if the country of the campaign is whitelisted for publisher */
-			policy countryIsWhitelisted {
-				apply firstApplicable
-							
-				rule isWhitelisted {
+			policy byCountry {
+				apply orderedDenyOverrides
+				
+				/* Permit if publisher can run any campaign's country */
+				rule canRunAnyCountry {
+					permit
+					condition publisher.allCountries[issuer="com:glispa:queue:publisher"]==true
+				}	
+				
+				/* Deny if the campaign's country is in blacklist */
+				rule isCountryBlacklisted {
+					target clause publisher.allCountries[issuer="com:glispa:queue:publisher"]==true
+					deny
+					condition stringIsIn(
+						stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]), 
+						publisher.blacklistedCountries[issuer="com:glispa:mediation"]
+					)
+				}			
+				
+				/* Permit if the campaign's country is in whitelist */
+				rule isCountryWhitelisted {
+					target clause publisher.allCountries[issuer="com:glispa:queue:publisher"]==false
 					permit
 					condition stringIsIn(
 						stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]), 
 						publisher.whitelistedCountries[issuer="com:glispa:mediation"]
 					)
-					on permit {
-		                obligation displayAttributes {
-		                    response.message = stringConcatenate("Country is whitelisted: ", stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]))
-		                }
+				}				
+				
+				on deny {
+	                obligation responseMessage {
+	                    response.message = stringConcatenate("Campaign's country is denied: ", stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]))
+	                }
+	            }
+	            on permit {
+	                obligation responseMessage {
+	                    response.message = stringConcatenate("Campaign's country is allowed: ", stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]))
+	                }
+	            }
+			}			
+		}
+		
+		/* If nothing is applicable, deny */
+		policy default {
+			apply firstApplicable
+			rule default {
+				deny
+				on deny {
+		            obligation responseMessage {
+		                response.message = "Publisher has no permission to run this campaign"
 		            }
-				}
+		        }
 			}
-			
-			/* If no other  */
-			policy default {
-				apply firstApplicable
-				rule default {
-					deny
-				}
-			}
-			
-			on deny {
-                obligation displayAttributes {
-                    response.message = "Publisher and campaign are active but it has no permission to run this campaign"
-                }
-            }
-		}		
+		}	
 	}
 	
-	obligation displayAttributes = "obligation.displayAttributes"
+	obligation responseMessage = "obligation.responseMessage"
 	category response = "response"
 	
 	namespace response {
@@ -139,9 +210,24 @@ namespace com.glispa {
 	        type = boolean
 	        category = subjectCat
 	    }
+		attribute allCampaigns {
+	        id = "subject:publisher:all-campaigns"
+	        type = boolean
+	        category = subjectCat
+	    }
+		attribute allCountries {
+	        id = "subject:publisher:all-countries"
+	        type = boolean
+	        category = subjectCat
+	    }
 		attribute allCategories {
 	        id = "subject:publisher:all-categories"
 	        type = boolean
+	        category = subjectCat
+	    }
+		attribute whitelistedCampaigns {
+	        id = "subject:publisher:whitelisted-campaigns"
+	        type = string
 	        category = subjectCat
 	    }
 		attribute whitelistedCountries {
@@ -151,6 +237,11 @@ namespace com.glispa {
 	    }
 		attribute whitelistedCategories {
 	        id = "subject:publisher:whitelisted-categories"
+	        type = string
+	        category = subjectCat
+	    }
+		attribute blacklistedCampaigns {
+	        id = "subject:publisher:blacklisted-campaigns"
 	        type = string
 	        category = subjectCat
 	    }

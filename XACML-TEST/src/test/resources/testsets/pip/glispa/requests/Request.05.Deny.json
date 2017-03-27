@@ -1,0 +1,67 @@
+{
+  "Request": {
+    "Category": [
+      { "Id": "publisherE",
+        "CategoryId": "urn:oasis:names:tc:xacml:1.0:subject-category:access-subject",
+        "Attribute": [ { "Value": "E", "AttributeId": "urn:oasis:names:tc:xacml:1.0:subject:subject-id"}]
+      },
+      { "Id": "run",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:action",
+        "Attribute": [ { "Value": "publisher-can-run-campaign", "AttributeId": "urn:oasis:names:tc:xacml:1.0:action:action-id"}]
+      },
+      { "Id": "campaign1",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "1", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign2",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "2", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign3",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "3", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign4",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "4", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign5",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "5", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign6",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "6", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign7",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "7", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign8",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "8", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign9",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "9", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      },
+      { "Id": "campaign10",
+        "CategoryId": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+        "Attribute": [ { "Value": "10", "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"}]
+      }],
+    "MultiRequests": {
+      "RequestReference": [
+        { "ReferenceId": [ "publisherE", "run", "campaign1"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign2"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign3"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign4"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign5"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign6"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign7"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign8"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign9"]},
+        { "ReferenceId": [ "publisherE", "run", "campaign10"]}
+      ]
+    }
+  }
+}

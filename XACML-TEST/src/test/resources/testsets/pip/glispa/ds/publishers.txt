@@ -1,5 +1,6 @@
-publisherId,active,allCategories,allCountries
-"A",true,false,false
-"B",true,false,false
-"C",true,true,true
-"D",false,true,true
+publisherId,active,allCampaigns,allCategories,allCountries
+"A",1,0,1,1
+"B",1,1,1,0
+"C",1,1,0,1
+"D",0,1,1,1
+"E",1,0,0,0

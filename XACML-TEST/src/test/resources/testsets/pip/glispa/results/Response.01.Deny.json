@@ -9,122 +9,10 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:SOCIAL",
+        "Value" : "Campaign's country is denied: US",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:COMMUNICATION",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:TOOLS",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:STRATEGY",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Country is whitelisted:DE",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Country is whitelisted:DE",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:ARCADE",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
-    } ],
-    "Decision" : "Permit"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     } ],
     "Decision" : "Deny"
   }, {
@@ -137,10 +25,10 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "Value" : "Campaign's country is denied: US",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     } ],
     "Decision" : "Deny"
   }, {
@@ -153,11 +41,155 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:MUSIC_AND_AUDIO",
+        "Value" : "Campaign's category is denied: TOOLS",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's category is allowed: STRATEGY",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    }, {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is allowed: BR",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
     } ],
     "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's category is allowed: VIDEO_PLAYERS",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    }, {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is allowed: DE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's category is allowed: NEWS_AND_MAGAZINES",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    }, {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is allowed: DE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's category is allowed: ARCADE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    }, {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is allowed: FR",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's category is denied: PRODUCTIVITY",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is denied: CH",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is denied: CH",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Deny"
   } ]
 }

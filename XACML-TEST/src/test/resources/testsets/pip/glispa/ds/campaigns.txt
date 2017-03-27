@@ -1,3 +1,4 @@
+cid,category,country,active
 "1","SOCIAL","US",true
 "2","COMMUNICATION","US",true
 "3","TOOLS","BR",true

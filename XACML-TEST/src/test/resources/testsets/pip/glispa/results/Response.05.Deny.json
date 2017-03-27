@@ -9,7 +9,39 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
+        "Value" : "Campaign's country is allowed: US",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's country is allowed: US",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Publisher has no permission to run this campaign",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
       "Id" : "obligation.responseMessage"
@@ -25,7 +57,7 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
+        "Value" : "Publisher has no permission to run this campaign",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
       "Id" : "obligation.responseMessage"
@@ -41,7 +73,7 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
+        "Value" : "Publisher has no permission to run this campaign",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
       "Id" : "obligation.responseMessage"
@@ -57,7 +89,39 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
+        "Value" : "Campaign is allowed: 6",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Campaign's category is allowed: ARCADE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.responseMessage"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Publisher has no permission to run this campaign",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
       "Id" : "obligation.responseMessage"
@@ -73,12 +137,12 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
+        "Value" : "Campaign is allowed: 9",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
       "Id" : "obligation.responseMessage"
     } ],
-    "Decision" : "Deny"
+    "Decision" : "Permit"
   }, {
     "Status" : {
       "StatusCode" : {
@@ -89,71 +153,7 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.responseMessage"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.responseMessage"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.responseMessage"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
-        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
-      } ],
-      "Id" : "obligation.responseMessage"
-    } ],
-    "Decision" : "Deny"
-  }, {
-    "Status" : {
-      "StatusCode" : {
-        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
-      }
-    },
-    "Obligations" : [ {
-      "AttributeAssignment" : [ {
-        "Category" : "response",
-        "AttributeId" : "response:message",
-        "Value" : "Publisher is inactive",
+        "Value" : "Publisher has no permission to run this campaign",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
       "Id" : "obligation.responseMessage"

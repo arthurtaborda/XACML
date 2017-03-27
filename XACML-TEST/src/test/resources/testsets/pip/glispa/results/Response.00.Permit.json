@@ -9,11 +9,11 @@
       "AttributeAssignment" : [ {
         "Category" : "response",
         "AttributeId" : "response:message",
-        "Value" : "Category is whitelisted:SOCIAL",
+        "Value" : "Campaign's country is denied: US",
         "DataType" : "http://www.w3.org/2001/XMLSchema#string"
       } ],
-      "Id" : "obligation.displayAttributes"
+      "Id" : "obligation.responseMessage"
     } ],
-    "Decision" : "Permit"
+    "Decision" : "Deny"
   } ]
 }
