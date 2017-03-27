@@ -1,44 +1,121 @@
-namespace com.glispa.simple {	
-	
+namespace com.glispa {
+		
 	policyset publisherCanRunCampaign {
 		target clause Attributes.actionId=="publisher-can-run-campaign"
-		apply denyUnlessPermit
+		apply firstApplicable
 		
-		policy categoryIsWhitelisted {
+		/* Deny if campaign is inactive */
+		policy categoryIsInactive {
 			apply firstApplicable
 						
-			rule isWhitelisted {
-				permit
-				condition stringIsIn(
-					stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
-					publisher.whitelistedCategories[issuer="com:glispa:mediation:whitelisted-categories"]
-				)
-			}
-			
-			rule default {
+			rule isInactive {
 				deny
+				condition not(booleanOneAndOnly(campaign.active[issuer="com:glispa:queue:campaign"]))
+				on deny {
+	                obligation displayAttributes {
+	                    response.message = "Campaign is inactive"
+	                }
+	            }
 			}
 		}
 		
-		policy countryIsWhitelisted {
+		/* Deny if publisher is inactive */
+		policy publisherIsInactive {
 			apply firstApplicable
 						
-			rule isWhitelisted {
-				permit
-				condition stringIsIn(
-					stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]), 
-					publisher.whitelistedCountries[issuer="com:glispa:mediation:whitelisted-countries"]
-				)
-			}
-			
-			rule default {
+			rule isInactive {
 				deny
+				condition not(booleanOneAndOnly(publisher.active[issuer="com:glispa:queue:publisher"]))
+				on deny {
+	                obligation displayAttributes {
+	                    response.message = "Publisher is inactive"
+	                }
+	            }
 			}
 		}
+		
+		policyset publisherIsAllowedToRunCampaign {
+			apply firstApplicable
+			
+			/* Permit if the category of the campaign is whitelisted for publisher */
+			policy allowedByCategory {
+				apply firstApplicable
+							
+				/* Permit if category is in whitelist */
+				rule isWhitelisted {
+					target clause publisher.allCategories[issuer="com:glispa:queue:publisher"]==false
+					permit
+					condition stringIsIn(
+						stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
+						publisher.whitelistedCategories[issuer="com:glispa:mediation"]
+					)
+					on permit {
+		                obligation displayAttributes {
+		                    response.message = stringConcatenate("Category is whitelisted: ", stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]))
+		                }
+		            }
+				}
+							
+				/* Deny if category is in blacklist */
+				rule isBlacklisted {
+					target clause publisher.allCategories[issuer="com:glispa:queue:publisher"]==true
+					deny
+					condition stringIsIn(
+						stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
+						publisher.blacklistedCategories[issuer="com:glispa:mediation"]
+					)
+					on deny {
+		                obligation displayAttributes {
+		                    response.message = stringConcatenate("Category is blacklisted: ", stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]))
+		                }
+		            }
+				}
+			}
+			
+			/* Permit if the country of the campaign is whitelisted for publisher */
+			policy countryIsWhitelisted {
+				apply firstApplicable
+							
+				rule isWhitelisted {
+					permit
+					condition stringIsIn(
+						stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]), 
+						publisher.whitelistedCountries[issuer="com:glispa:mediation"]
+					)
+					on permit {
+		                obligation displayAttributes {
+		                    response.message = stringConcatenate("Country is whitelisted: ", stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]))
+		                }
+		            }
+				}
+			}
+			
+			/* If no other  */
+			policy default {
+				apply firstApplicable
+				rule default {
+					deny
+				}
+			}
+			
+			on deny {
+                obligation displayAttributes {
+                    response.message = "Publisher and campaign are active but it has no permission to run this campaign"
+                }
+            }
+		}		
 	}
 	
+	obligation displayAttributes = "obligation.displayAttributes"
+	category response = "response"
 	
-	
+	namespace response {
+		attribute message {
+			id = "response:message"
+	        type = string
+	        category = response
+		}
+	}
 	namespace campaign {
 		attribute cat {
 	        id = "resource:campaign:category"
@@ -50,8 +127,23 @@ namespace com.glispa.simple {
 	        type = string
 	        category = resourceCat
 	    }
+		attribute active {
+	        id = "resource:campaign:active"
+	        type = boolean
+	        category = resourceCat
+	    }
 	}
 	namespace publisher {
+		attribute active {
+	        id = "subject:publisher:active"
+	        type = boolean
+	        category = subjectCat
+	    }
+		attribute allCategories {
+	        id = "subject:publisher:all-categories"
+	        type = boolean
+	        category = subjectCat
+	    }
 		attribute whitelistedCountries {
 	        id = "subject:publisher:whitelisted-countries"
 	        type = string
@@ -59,6 +151,16 @@ namespace com.glispa.simple {
 	    }
 		attribute whitelistedCategories {
 	        id = "subject:publisher:whitelisted-categories"
+	        type = string
+	        category = subjectCat
+	    }
+		attribute blacklistedCountries {
+	        id = "subject:publisher:blacklisted-countries"
+	        type = string
+	        category = subjectCat
+	    }
+		attribute blacklistedCategories {
+	        id = "subject:publisher:blacklisted-categories"
 	        type = string
 	        category = subjectCat
 	    }

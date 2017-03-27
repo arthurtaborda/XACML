@@ -333,11 +333,11 @@ public class TestPolicy extends TestBase {
 				//
 				// Dump it out
 				//
-				this.writeRequest(request);
+//				this.writeRequest(request);
 				//
 				// Initiate recursive call to add other attributes to the request
 				//
-				this.recursivelyGenerateRequests(request, i + 1, attributes);
+//				this.recursivelyGenerateRequests(request, i + 1, attributes);
 			}
 		}
 	}
