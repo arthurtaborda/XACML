@@ -1,80 +1,63 @@
-namespace com.glispa {	
+namespace com.glispa.simple {	
 	
-	policy publisherPolicy {
-		target clause Attributes.subjectIdQualifier=="publisher" and Attributes.actionId=="run"
+	policyset publisherCanRunCampaign {
+		target clause Attributes.actionId=="publisher-can-run-campaign"
 		apply firstApplicable
 		
-		/*
-		 * Inactive publishers can not run any campaign
-		 */
-		rule denyIfPublisherIsInactive {
-			deny
-			condition publisher.status=="Inactive"
+		policy categoryIsWhitelisted {
+			apply firstApplicable
+						
+			rule isWhitelisted {
+				permit
+				condition stringIsIn(stringOneAndOnly(campaign.cat[issuer="com:glispa:queue"]), publisher.whitelistedCategories[issuer="com:glispa:mediation"])
+			}
+			
+			rule default {
+				deny
+			}
 		}
 		
-		rule allowWhitelistedCategories {
-			condition stringAtLeastOneMemberOf(campaign.categoryId, publisher.whitelistedCategories)
-			permit
-		}
-		
-		rule allowWhitelistedOperationSystems {
-			condition stringAtLeastOneMemberOf(campaign.os, publisher.whitelistedOperationalSystems)
-			permit
-		}
+		policy countryIsWhitelisted {
+			apply firstApplicable
+						
+			rule isWhitelisted {
+				permit
+				condition stringIsIn(
+					stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]), 
+					publisher.whitelistedCountries[issuer="com:glispa:mediation"]
+				)
+			}
+			
+			rule default {
+				deny
+			}
+		}	
 	}
 	
-	policy campaignPolicy {
-		target clause resource.resourceType=="campaign" and Attributes.actionId=="run"
-		apply denyOverrides
-		
-		/*
-		 * Inactive campaigns can not be run by any publisher
-		 */
-		rule denyIfCampaignIsInactive {
-			condition campaign.active==false
-			deny
-		}
-	}
 	
-	namespace campaign {		
-		attribute categoryId {
-	        id = "category:id"
-	        type = string
-	        category = resourceCat
-	    }	
-		attribute os {
-	        id = "category:os"
+	
+	namespace campaign {
+		attribute cat {
+	        id = "resource:campaign:category"
 	        type = string
 	        category = resourceCat
 	    }
-		attribute active {
-	        id = "category:active"
-	        type = boolean
+		attribute country {
+	        id = "resource:campaign:country"
+	        type = string
 	        category = resourceCat
 	    }
 	}
 	namespace publisher {
-		attribute status {
-	        id = "publisher:status"
+		attribute whitelistedCountries {
+	        id = "subject:publisher:whitelisted-countries"
 	        type = string
 	        category = subjectCat
 	    }
 		attribute whitelistedCategories {
-	        id = "publisher:categories"
+	        id = "subject:publisher:whitelisted-categories"
 	        type = string
 	        category = subjectCat
 	    }
-		attribute whitelistedOperationalSystems {
-	        id = "publisher:operational-systems"
-	        type = string
-	        category = subjectCat
-	    }
-	}
-	namespace resource {
-		attribute resourceType {
-			id = "resource:type"
-			type = string
-			category = resourceCat
-		}
 	}
 }

@@ -3,30 +3,22 @@
     "AccessSubject": {
       "Attribute": [
         {
-          "Value": "1",
+          "Value": "B",
           "AttributeId": "urn:oasis:names:tc:xacml:1.0:subject:subject-id"
-        },
-        {
-          "Value": "publisher",
-          "AttributeId": "urn:oasis:names:tc:xacml:1.0:subject:subject-id-qualifier"
         }
       ]
     },
     "Action": {
       "Attribute": {
-        "Value": "run",
+        "Value": "publisher-can-run-campaign",
         "AttributeId": "urn:oasis:names:tc:xacml:1.0:action:action-id"
       }
     },
     "Resource": {
       "Attribute": [
         {
-          "Value": "10",
+          "Value": "1",
           "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id"
-        },
-        {
-          "Value": "campaign",
-          "AttributeId": "resource:resourceType"
         }
       ]
     }

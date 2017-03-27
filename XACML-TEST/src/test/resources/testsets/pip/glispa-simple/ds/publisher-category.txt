@@ -1,5 +1,0 @@
-"1","Games"
-"1","Health"
-"1","Food"
-"2","Utilities"
-"2","Food"

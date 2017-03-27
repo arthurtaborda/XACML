@@ -1,6 +1,0 @@
-"10","ANDROID","GAME","true"
-"20","IOS","FINANCE","true"
-"30","ANDROID","FOOD","true"
-"40","IOS,"FOOD","false"
-"50","ANDROID","FITNESS","true"
-"60","IOS","GAME","false"
