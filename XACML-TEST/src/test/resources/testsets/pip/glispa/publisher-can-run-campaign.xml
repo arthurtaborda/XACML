@@ -1,48 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicySetId="publisher-can-run-campaign"
-           Version="1"
-           PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable">
+<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+           PolicySetId="publisherCanRunCampaign"
+           PolicyCombiningAlgId="urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:deny-unless-permit"
+           Version="1.0">
     <Description/>
     <Target>
         <AnyOf>
             <AllOf>
                 <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
                     <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">publisher-can-run-campaign</AttributeValue>
-                    <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
-                                         AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
-                                         DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"/>
+                    <AttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                            MustBePresent="false"/>
                 </Match>
             </AllOf>
         </AnyOf>
     </Target>
     <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
-            PolicyId="publisher-can-run-campaign.category-is-whitelisted-policy"
+            PolicyId="publisherCanRunCampaign.categoryIsWhitelisted"
             RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
             Version="1.0">
         <Description/>
         <Target/>
         <Rule Effect="Permit"
-              RuleId="publisher-can-run-campaign.category-is-whitelisted-policy.category-is-whitelisted">
+              RuleId="publisherCanRunCampaign.categoryIsWhitelisted.isWhitelisted">
             <Description/>
             <Target/>
             <Condition>
                 <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                        <AttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             AttributeId="resource:campaign:category"
-                                             Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                             MustBePresent="false"/>
+                        <AttributeDesignator
+                                AttributeId="resource:campaign:category"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"/>
                     </Apply>
-                    <AttributeDesignator AttributeId="subject:publisher:whitelisted-categories"
-                                         DataType="http://www.w3.org/2001/XMLSchema#string"
-                                         Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                         MustBePresent="false"
-                                         Issuer="com:glispa:db:csv"/>
+                    <AttributeDesignator
+                            AttributeId="subject:publisher:whitelisted-categories"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation:whitelisted-categories"
+                            MustBePresent="false"/>
                 </Apply>
             </Condition>
         </Rule>
         <Rule Effect="Deny"
-              RuleId="publisher-can-run-campaign.category-is-whitelisted-policy.default">
+              RuleId="publisherCanRunCampaign.categoryIsWhitelisted.default">
+            <Description/>
+            <Target/>
+        </Rule>
+    </Policy>
+    <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+            PolicyId="publisherCanRunCampaign.countryIsWhitelisted"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+            Version="1.0">
+        <Description/>
+        <Target/>
+        <Rule Effect="Permit"
+              RuleId="publisherCanRunCampaign.countryIsWhitelisted.isWhitelisted">
+            <Description/>
+            <Target/>
+            <Condition>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                        <AttributeDesignator
+                                AttributeId="resource:campaign:country"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                                Issuer="com:glispa:queue:campaign"
+                                MustBePresent="false"/>
+                    </Apply>
+                    <AttributeDesignator
+                            AttributeId="subject:publisher:whitelisted-countries"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"
+                            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                            Issuer="com:glispa:mediation:whitelisted-countries"
+                            MustBePresent="false"/>
+                </Apply>
+            </Condition>
+        </Rule>
+        <Rule Effect="Deny"
+              RuleId="publisherCanRunCampaign.countryIsWhitelisted.default">
             <Description/>
             <Target/>
         </Rule>

@@ -3,7 +3,7 @@
     "AccessSubject": {
       "Attribute": [
         {
-          "Value": "B",
+          "Value": "A",
           "AttributeId": "urn:oasis:names:tc:xacml:1.0:subject:subject-id"
         }
       ]

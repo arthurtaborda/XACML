@@ -2,14 +2,17 @@ namespace com.glispa.simple {
 	
 	policyset publisherCanRunCampaign {
 		target clause Attributes.actionId=="publisher-can-run-campaign"
-		apply firstApplicable
+		apply denyUnlessPermit
 		
 		policy categoryIsWhitelisted {
 			apply firstApplicable
 						
 			rule isWhitelisted {
 				permit
-				condition stringIsIn(stringOneAndOnly(campaign.cat[issuer="com:glispa:queue"]), publisher.whitelistedCategories[issuer="com:glispa:mediation"])
+				condition stringIsIn(
+					stringOneAndOnly(campaign.cat[issuer="com:glispa:queue:campaign"]), 
+					publisher.whitelistedCategories[issuer="com:glispa:mediation:whitelisted-categories"]
+				)
 			}
 			
 			rule default {
@@ -24,14 +27,14 @@ namespace com.glispa.simple {
 				permit
 				condition stringIsIn(
 					stringOneAndOnly(campaign.country[issuer="com:glispa:queue:campaign"]), 
-					publisher.whitelistedCountries[issuer="com:glispa:mediation"]
+					publisher.whitelistedCountries[issuer="com:glispa:mediation:whitelisted-countries"]
 				)
 			}
 			
 			rule default {
 				deny
 			}
-		}	
+		}
 	}
 	
 	
