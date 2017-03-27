@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="xacml" />
+        <module name="xacml-pap-admin" />
+        <module name="xacml-pap-rest" />
+        <module name="xacml-pdp" />
+        <module name="xacml-pdp-rest" />
+        <module name="xacml-rest" />
+        <module name="xacml-test" />
+        <module name="xacml-test (1)" />
+        <module name="xacml-test (2)" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="att-xacml" target="1.7" />
+      <module name="xacml" target="1.7" />
+      <module name="xacml-pap-admin" target="1.7" />
+      <module name="xacml-pap-rest" target="1.7" />
+      <module name="xacml-pdp" target="1.7" />
+      <module name="xacml-pdp-rest" target="1.7" />
+      <module name="xacml-rest" target="1.7" />
+      <module name="xacml-test" target="1.7" />
+      <module name="xacml-test (1)" target="1.5" />
+      <module name="xacml-test (2)" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

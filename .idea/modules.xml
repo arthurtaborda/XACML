@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/att-xacml.iml" filepath="$PROJECT_DIR$/att-xacml.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML/xacml.iml" filepath="$PROJECT_DIR$/XACML/xacml.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML-PAP-ADMIN/xacml-pap-admin.iml" filepath="$PROJECT_DIR$/XACML-PAP-ADMIN/xacml-pap-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML-PAP-REST/xacml-pap-rest.iml" filepath="$PROJECT_DIR$/XACML-PAP-REST/xacml-pap-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML-PDP/xacml-pdp.iml" filepath="$PROJECT_DIR$/XACML-PDP/xacml-pdp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML-PDP-REST/xacml-pdp-rest.iml" filepath="$PROJECT_DIR$/XACML-PDP-REST/xacml-pdp-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML-REST/xacml-rest.iml" filepath="$PROJECT_DIR$/XACML-REST/xacml-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XACML-TEST/xacml-test.iml" filepath="$PROJECT_DIR$/XACML-TEST/xacml-test.iml" />
+    </modules>
+  </component>
+</project>
