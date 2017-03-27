@@ -1,0 +1,5 @@
+publisherId,active,allCategories,allCountries
+"A",true,false,false
+"B",true,false,false
+"C",true,true,true
+"D",false,true,true

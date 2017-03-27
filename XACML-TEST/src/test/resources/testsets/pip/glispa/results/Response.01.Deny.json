@@ -1,0 +1,163 @@
+{
+  "Response" : [ {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Category is whitelisted:SOCIAL",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Category is whitelisted:COMMUNICATION",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Category is whitelisted:TOOLS",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Category is whitelisted:STRATEGY",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Country is whitelisted:DE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Country is whitelisted:DE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Category is whitelisted:ARCADE",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Publisher and campaign are active but it has no permission to run this campaign",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Deny"
+  }, {
+    "Status" : {
+      "StatusCode" : {
+        "Value" : "urn:oasis:names:tc:xacml:1.0:status:ok"
+      }
+    },
+    "Obligations" : [ {
+      "AttributeAssignment" : [ {
+        "Category" : "response",
+        "AttributeId" : "response:message",
+        "Value" : "Category is whitelisted:MUSIC_AND_AUDIO",
+        "DataType" : "http://www.w3.org/2001/XMLSchema#string"
+      } ],
+      "Id" : "obligation.displayAttributes"
+    } ],
+    "Decision" : "Permit"
+  } ]
+}
