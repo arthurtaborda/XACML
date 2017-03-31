@@ -9,10 +9,6 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/XACML-TEST/pom.xml" />
-        <option value="$PROJECT_DIR$/XACML-REST/pom.xml" />
-        <option value="$PROJECT_DIR$/XACML-PDP-REST/pom.xml" />
-        <option value="$PROJECT_DIR$/XACML-PAP-REST/pom.xml" />
-        <option value="$PROJECT_DIR$/XACML-PAP-ADMIN/pom.xml" />
       </list>
     </option>
   </component>

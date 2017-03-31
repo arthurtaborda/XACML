@@ -2,7 +2,6 @@
 <PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicySetId="publisherCanRunCampaign"
            PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable" Version="1.0">
     <Description/>
-
     <Target>
         <AnyOf>
             <AllOf>
@@ -18,7 +17,6 @@
     <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.categoryIsInactive"
             RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
         <Description>Deny if campaign is inactive</Description>
-
         <Target/>
         <Rule Effect="Deny" RuleId="publisherCanRunCampaign.categoryIsInactive.isInactive">
             <Description/>
@@ -27,7 +25,7 @@
                 <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
                         <AttributeDesignator AttributeId="resource:campaign:active" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:queue:campaign"
+                                             Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Apply>
@@ -44,7 +42,6 @@
     <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.publisherIsInactive"
             RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
         <Description>Deny if publisher is inactive</Description>
-
         <Target/>
         <Rule Effect="Deny" RuleId="publisherCanRunCampaign.publisherIsInactive.isInactive">
             <Description/>
@@ -53,8 +50,8 @@
                 <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
                         <AttributeDesignator AttributeId="subject:publisher:active" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                             Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                             MustBePresent="false"/>
                     </Apply>
                 </Apply>
             </Condition>
@@ -70,12 +67,10 @@
     <PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicySetId="publisherCanRunCampaign.whitelistedOrBlacklisted"
                PolicyCombiningAlgId="urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:ordered-deny-overrides" Version="1.0">
         <Description>Blacklisted attributes have priority (so if any campaign's attribute is blacklisted this will produce a deny). Otherwise, if there is no attribute blacklisted any attributed whitelisted will be applied, producing a permit. In case none of these apply, it should return a NotApplicable</Description>
-
         <Target/>
         <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign"
                 RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides" Version="1.0">
             <Description/>
-
             <Target/>
             <Rule Effect="Permit" RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCampaign.canRunAnyCampaign">
                 <Description>Permit if publisher can run any campaign</Description>
@@ -85,8 +80,8 @@
                         <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
                         <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
                         <AttributeDesignator AttributeId="subject:publisher:all-campaigns" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                             Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                             MustBePresent="false"/>
                     </Apply>
                 </Condition>
             </Rule>
@@ -98,8 +93,8 @@
                             <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
                                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
                                 <AttributeDesignator AttributeId="subject:publisher:all-campaigns" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Match>
                         </AllOf>
                     </AnyOf>
@@ -112,7 +107,7 @@
                                                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" MustBePresent="false"/>
                         </Apply>
                         <AttributeDesignator AttributeId="subject:publisher:blacklisted-campaigns" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Condition>
@@ -125,8 +120,8 @@
                             <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
                                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
                                 <AttributeDesignator AttributeId="subject:publisher:all-campaigns" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Match>
                         </AllOf>
                     </AnyOf>
@@ -139,7 +134,7 @@
                                                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" MustBePresent="false"/>
                         </Apply>
                         <AttributeDesignator AttributeId="subject:publisher:whitelisted-campaigns" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Condition>
@@ -174,7 +169,6 @@
         <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory"
                 RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides" Version="1.0">
             <Description/>
-
             <Target/>
             <Rule Effect="Permit" RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCategory.canRunAnyCategory">
                 <Description>Permit if publisher can run any campaign's category</Description>
@@ -184,8 +178,8 @@
                         <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
                         <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
                         <AttributeDesignator AttributeId="subject:publisher:all-categories" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                             Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                             MustBePresent="false"/>
                     </Apply>
                 </Condition>
             </Rule>
@@ -198,8 +192,8 @@
                                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
                                 <AttributeDesignator AttributeId="subject:publisher:all-categories"
                                                      DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Match>
                         </AllOf>
                     </AnyOf>
@@ -208,11 +202,11 @@
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
                         <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                             <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                 MustBePresent="false"/>
                         </Apply>
                         <AttributeDesignator AttributeId="subject:publisher:blacklisted-categories" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Condition>
@@ -226,8 +220,8 @@
                                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
                                 <AttributeDesignator AttributeId="subject:publisher:all-categories"
                                                      DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Match>
                         </AllOf>
                     </AnyOf>
@@ -236,11 +230,11 @@
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
                         <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                             <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                 MustBePresent="false"/>
                         </Apply>
                         <AttributeDesignator AttributeId="subject:publisher:whitelisted-categories" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Condition>
@@ -252,8 +246,8 @@
                             <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's category is denied:</AttributeValue>
                             <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                                 <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                     Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Apply>
                         </Apply>
                     </AttributeAssignmentExpression>
@@ -264,8 +258,8 @@
                             <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's category is allowed:</AttributeValue>
                             <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                                 <AttributeDesignator AttributeId="resource:campaign:category" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                     Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Apply>
                         </Apply>
                     </AttributeAssignmentExpression>
@@ -275,7 +269,6 @@
         <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry"
                 RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:ordered-deny-overrides" Version="1.0">
             <Description/>
-
             <Target/>
             <Rule Effect="Permit" RuleId="publisherCanRunCampaign.whitelistedOrBlacklisted.byCountry.canRunAnyCountry">
                 <Description>Permit if publisher can run any campaign's country</Description>
@@ -285,8 +278,8 @@
                         <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal"/>
                         <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
                         <AttributeDesignator AttributeId="subject:publisher:all-countries" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                             Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                             MustBePresent="false"/>
                     </Apply>
                 </Condition>
             </Rule>
@@ -298,8 +291,8 @@
                             <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
                                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
                                 <AttributeDesignator AttributeId="subject:publisher:all-countries" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Match>
                         </AllOf>
                     </AnyOf>
@@ -308,11 +301,11 @@
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
                         <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                             <AttributeDesignator AttributeId="resource:campaign:country" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                 MustBePresent="false"/>
                         </Apply>
                         <AttributeDesignator AttributeId="subject:publisher:blacklisted-countries" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Condition>
@@ -325,8 +318,8 @@
                             <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
                                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
                                 <AttributeDesignator AttributeId="subject:publisher:all-countries" DataType="http://www.w3.org/2001/XMLSchema#boolean"
-                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
-                                                     Issuer="com:glispa:queue:publisher" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Match>
                         </AllOf>
                     </AnyOf>
@@ -335,11 +328,11 @@
                     <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
                         <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                             <AttributeDesignator AttributeId="resource:campaign:country" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                 Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                 MustBePresent="false"/>
                         </Apply>
                         <AttributeDesignator AttributeId="subject:publisher:whitelisted-countries" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:mediation"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" Issuer="com:glispa:pip"
                                              MustBePresent="false"/>
                     </Apply>
                 </Condition>
@@ -351,8 +344,8 @@
                             <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's country is denied:</AttributeValue>
                             <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                                 <AttributeDesignator AttributeId="resource:campaign:country" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                     Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Apply>
                         </Apply>
                     </AttributeAssignmentExpression>
@@ -363,8 +356,8 @@
                             <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Campaign's country is allowed:</AttributeValue>
                             <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
                                 <AttributeDesignator AttributeId="resource:campaign:country" DataType="http://www.w3.org/2001/XMLSchema#string"
-                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
-                                                     Issuer="com:glispa:queue:campaign" MustBePresent="false"/>
+                                                     Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Issuer="com:glispa:pip"
+                                                     MustBePresent="false"/>
                             </Apply>
                         </Apply>
                     </AttributeAssignmentExpression>
@@ -375,7 +368,6 @@
     <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="publisherCanRunCampaign.default"
             RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
         <Description>If nothing is applicable, deny</Description>
-
         <Target/>
         <Rule Effect="Deny" RuleId="publisherCanRunCampaign.default.default">
             <Description/>

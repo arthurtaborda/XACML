@@ -8,11 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="xacml" />
-        <module name="xacml-pap-admin" />
-        <module name="xacml-pap-rest" />
         <module name="xacml-pdp" />
-        <module name="xacml-pdp-rest" />
-        <module name="xacml-rest" />
         <module name="xacml-test" />
         <module name="xacml-test (1)" />
         <module name="xacml-test (2)" />
